@@ -11,10 +11,17 @@ import com.dpuntu.downloader.DownloadManager;
  */
 
 public class ExampleApp extends Application {
+    private static ExampleApp sExampleApp;
+
     @Override
     public void onCreate() {
         super.onCreate();
         // 初始化下载器，一般在 Application 中初始化一次即可
-        DownloadManager.getInstance().initDownloader(this);
+        sExampleApp = this;
+        DownloadManager.initDownloader(sExampleApp);
+    }
+
+    public static ExampleApp getApp() {
+        return sExampleApp;
     }
 }
