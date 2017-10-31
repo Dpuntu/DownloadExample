@@ -31,7 +31,7 @@ public class DownloadAdapter extends RecyclerView.Adapter<DownloadAdapter.Downlo
     public DownloadAdapter(List<Downloader> mDownloaders) {
         this.mDownloaders = mDownloaders;
         // 将封装好的下载信息加载到下载队列
-        Logger.e(mDownloaders.size()+"");
+        Logger.e(mDownloaders.size() + "");
         DownloadManager.addDownloader(mDownloaders);
     }
 
@@ -116,8 +116,8 @@ public class DownloadAdapter extends RecyclerView.Adapter<DownloadAdapter.Downlo
                 @Override
                 public void run() {
                     mTextView.setText(taskId + " onLoading , speed = " + speed
-                                             + " , totalSize = " + totalSize
-                                             + " , loadedSize = " + loadedSize);
+                                              + " , totalSize = " + totalSize
+                                              + " , loadedSize = " + loadedSize);
                 }
             });
         }
@@ -139,7 +139,7 @@ public class DownloadAdapter extends RecyclerView.Adapter<DownloadAdapter.Downlo
             Log.e(MainActivity.class.getName(), taskId + " onFinish");
             DownloadManager.removeTaskObserver(taskId, this);
             // 最好不要在这里做这一步操作，因为你可能绑定了其他监听者，有一处移除，其他的均无法监听甚至出现异常
-            // DownloadManager.remove(taskId);
+            //  DownloadManager.remove(taskId);
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {

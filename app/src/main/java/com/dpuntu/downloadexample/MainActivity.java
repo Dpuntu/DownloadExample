@@ -1,10 +1,13 @@
 package com.dpuntu.downloadexample;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.Button;
 
 import com.dpuntu.downloader.DownloadManager;
 import com.dpuntu.downloader.Downloader;
@@ -22,16 +25,30 @@ import okhttp3.logging.HttpLoggingInterceptor;
  */
 public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
+    private Button mButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycle);
+        mButton = (Button) findViewById(R.id.button);
         // 设置可同时下载任务的数量
         DownloadManager.setCorePoolSize(3);
+        DownloadManager.setMaxPoolSize(30);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        mRecyclerView.setAdapter(new DownloadAdapter(initDownloaders()));
+        final List<Downloader> mDownloaders = initDownloaders();
+        mRecyclerView.setAdapter(new DownloadAdapter(mDownloaders));
+        mButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 我们选最后一个任务作参考
+                Downloader mDownloader = mDownloaders.get(mDownloaders.size() - 1);
+                startActivity(new Intent()
+                                      .putExtra("taskId", mDownloader.getTaskId())
+                                      .setClass(MainActivity.this, OtherActivity.class));
+            }
+        });
     }
 
     private List<Downloader> initDownloaders() {
