@@ -5,4 +5,4 @@
 
 [android-downloader](https://github.com/Dpuntu/android-downloader)
 
-代码比较简单，后面会出多任务的断点多界面管理的实例
+已包含多任务断点和多界面管理
